@@ -109,7 +109,17 @@ This backend implements a robust authentication and authorization system based o
    ```bash
       npm run start:dev
    ```
-8. Access the API documentation once the server is running:
+
+8. Run the seed to populate test data
+
+   Use your preferred API client (e.g., Postman, Insomnia, Thunder Client, etc.) to send a GET request to the following endpoint:
+
+
+   👉 [`GET http://localhost:3000/api/v1/seed/security`](http://localhost:3000/api/v1/seed/security)
+
+   Once completed, you will receive a success message. You can then verify the inserted data using your preferred database management tool.
+
+9. Access the API documentation once the server is running:
 
 👉 **Swagger UI:** [`${BACKEND_URL}/api/v1`](http://localhost:3000/api/v1)
 
