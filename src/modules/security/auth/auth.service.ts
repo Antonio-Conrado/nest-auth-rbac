@@ -81,12 +81,12 @@ export class AuthService {
   async login(loginAuthDto: LoginAuthDto) {
     const { email, password } = loginAuthDto;
     try {
-      const user = await this.userRepository
-        .createQueryBuilder('user')
-        .addSelect('user.password')
-        .where('user.email = :email', { email })
-        .getOne();
-
+      const user = await this.userRepository.findOne({
+        where: { email },
+        relations: {
+          security: true,
+        },
+      });
       if (!user)
         throw new NotFoundException(ApiResponseMessages('el usuario').notFound);
 
