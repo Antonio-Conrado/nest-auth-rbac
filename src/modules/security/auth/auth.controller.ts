@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Version } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   ConfirmAccountDto,
@@ -22,12 +22,14 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @Version('1')
   @ApiRegisterDoc()
   register(@Body() registerAuthDto: RegisterAuthDto) {
     return this.authService.register(registerAuthDto);
   }
 
   @Post('login')
+  @Version('1')
   @HttpCode(200)
   @ApiLoginDoc()
   login(@Body() loginAuthDto: LoginAuthDto) {
@@ -35,6 +37,7 @@ export class AuthController {
   }
 
   @Post('logout')
+  @Version('1')
   @HttpCode(200)
   @ApiLogoutDoc()
   logout(@Body() logoutDto: LogoutDto) {
@@ -42,6 +45,7 @@ export class AuthController {
   }
 
   @Post('confirm-account')
+  @Version('1')
   @HttpCode(200)
   @ApiConfirmAccountDoc()
   confirmAccount(@Body() confirmAccountDto: ConfirmAccountDto) {
@@ -49,6 +53,7 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @Version('1')
   @HttpCode(200)
   @ApiForgotPasswordDoc()
   forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
@@ -56,6 +61,7 @@ export class AuthController {
   }
 
   @Post('reset-password')
+  @Version('1')
   @HttpCode(200)
   @ApiResetPasswordDoc()
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Version,
+} from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
@@ -18,6 +26,7 @@ export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
   @Post()
+  @Version('1')
   @ApiCreateDoc('el permiso')
   @Auth(ValidPermissions.permissionCreate, ValidPermissions.adminFullAccess)
   create(@Body() createPermissionDto: CreatePermissionDto) {
@@ -25,6 +34,7 @@ export class PermissionsController {
   }
 
   @Get()
+  @Version('1')
   @ApiFindAllDoc('permiso')
   @Auth(ValidPermissions.permissionsFindAll, ValidPermissions.adminFullAccess)
   findAll() {
@@ -32,6 +42,7 @@ export class PermissionsController {
   }
 
   @Get(':id')
+  @Version('1')
   @ApiFindOneDoc('el permiso')
   @Auth(ValidPermissions.permissionFindOne, ValidPermissions.adminFullAccess)
   findOne(@Param('id', IdValidationPipe) id: number) {
@@ -39,6 +50,7 @@ export class PermissionsController {
   }
 
   @Patch(':id')
+  @Version('1')
   @ApiUpdateDoc('el permiso')
   @Auth(ValidPermissions.permissionUpdate, ValidPermissions.adminFullAccess)
   update(
@@ -49,6 +61,7 @@ export class PermissionsController {
   }
 
   @Patch('toggle-status/:id')
+  @Version('1')
   @ApiToggleStatusDoc('el permiso')
   @Auth(
     ValidPermissions.permissionToggleStatus,

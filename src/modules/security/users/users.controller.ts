@@ -8,6 +8,7 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  Version,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -33,6 +34,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @Version('1')
   @ApiCreateDoc('el usuario')
   @Auth(ValidPermissions.userCreate, ValidPermissions.adminFullAccess)
   create(@Body() createUserDto: CreateUserDto) {
@@ -40,6 +42,7 @@ export class UsersController {
   }
 
   @Get()
+  @Version('1')
   @ApiFindAllDoc('usuario')
   @Auth(ValidPermissions.usersFindAll, ValidPermissions.adminFullAccess)
   findAll(@Query() paginationDto: PaginationDto) {
@@ -47,6 +50,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @Version('1')
   @ApiFindOneDoc('el usuario')
   @Auth(ValidPermissions.userFindOne, ValidPermissions.adminFullAccess)
   findOne(@Param('id', IdValidationPipe) id: number) {
@@ -54,6 +58,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @Version('1')
   @ApiUpdateDoc('el usuario')
   @Auth(ValidPermissions.userUpdate, ValidPermissions.adminFullAccess)
   update(
@@ -74,6 +79,7 @@ export class UsersController {
   }
 
   @Patch('toogle-status/:id')
+  @Version('1')
   @ApiToggleStatusDoc('el usuario')
   @Auth(ValidPermissions.userToggleStatus, ValidPermissions.adminFullAccess)
   toogleStatus(@Param('id', IdValidationPipe) id: number) {
@@ -81,6 +87,7 @@ export class UsersController {
   }
 
   @Post(':id/upload')
+  @Version('1')
   @ApiUploadFileDoc('la imagen', 'image')
   @UseInterceptors(FileInterceptor('image'))
   uploadImage(

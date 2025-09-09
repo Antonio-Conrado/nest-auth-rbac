@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Version,
+} from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
@@ -20,6 +28,7 @@ export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @Post()
+  @Version('1')
   @ApiCreateDoc('el rol')
   @Auth(ValidPermissions.roleCreate, ValidPermissions.adminFullAccess)
   create(@Body() createRoleDto: CreateRoleDto) {
@@ -27,6 +36,7 @@ export class RolesController {
   }
 
   @Get()
+  @Version('1')
   @ApiFindAllDoc('role')
   @Auth(ValidPermissions.rolesFindAll, ValidPermissions.adminFullAccess)
   findAll() {
@@ -34,6 +44,7 @@ export class RolesController {
   }
 
   @Get(':id')
+  @Version('1')
   @ApiFindOneDoc('el rol')
   @Auth(ValidPermissions.roleFindOne, ValidPermissions.adminFullAccess)
   findOne(@Param('id', IdValidationPipe) id: number) {
@@ -41,6 +52,7 @@ export class RolesController {
   }
 
   @Patch(':id')
+  @Version('1')
   @ApiUpdateDoc('el rol')
   @Auth(ValidPermissions.roleUpdate, ValidPermissions.adminFullAccess)
   update(
@@ -51,6 +63,7 @@ export class RolesController {
   }
 
   @Patch('toggle-status/:id')
+  @Version('1')
   @ApiToggleStatusDoc('el rol')
   @Auth(ValidPermissions.roleToggleStatus, ValidPermissions.adminFullAccess)
   toggleStatus(@Param('id', IdValidationPipe) id: number) {
@@ -58,6 +71,7 @@ export class RolesController {
   }
 
   @Patch(':id/permissions')
+  @Version('1')
   @ApiOperation({ summary: 'Asignar permisos al rol' })
   @Auth(
     ValidPermissions.roleAssignPermissions,
