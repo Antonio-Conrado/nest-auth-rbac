@@ -69,6 +69,7 @@ export class UsersController {
   }
 
   @Patch('change-password/:id')
+  @Version('1')
   @ApiUpdatePasswordDoc('el usuario')
   @Auth(ValidPermissions.userUpdate, ValidPermissions.adminFullAccess)
   changePassword(
