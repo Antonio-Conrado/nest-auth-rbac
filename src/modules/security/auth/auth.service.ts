@@ -102,17 +102,8 @@ export class AuthService {
         'La cuenta no ha sido confirmada. Por favor, revisa tu correo electrónico para completar la confirmación.',
       );
 
-    // JWT payload: user ID, role, and active permissions
-    const permissions = user.role.permissions
-      .filter((p) => p.status)
-      .map((p) => p.name);
     const payload: JwtPayload = {
       id: user.id,
-      // role: {
-      //   id: user.role.id,
-      //   name: user.role.name,
-      //   permissions,
-      // },
     };
 
     if (loginAuthDto.remember) {
