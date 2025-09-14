@@ -2,15 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AuthExceptionFilter } from './common/exceptions/auth-exception-filter';
+import { GlobalExceptionFilter } from './common/exceptions/globalExceptionFilter';
 import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
-  app.use(helmet());
-  app.useGlobalFilters(new AuthExceptionFilter());
+  app.useGlobalFilters(new GlobalExceptionFilter()); // Captures all exceptions globally and returns a consistent ApiResponseDto format. No need to use try/catch in every controller or service unless handling specific cases.
 
+  app.use(helmet());
   //enables global validation for incoming data
   app.useGlobalPipes(
     new ValidationPipe({
