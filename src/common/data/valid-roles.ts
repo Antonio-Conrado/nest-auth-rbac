@@ -1,4 +1,5 @@
 export const ValidRoles = {
-  admin: 'administrador',
-  user: 'user',
+  superAdmin: 'Super Administrador',
+  admin: 'Administrador',
+  user: 'Usuario',
 } as const;

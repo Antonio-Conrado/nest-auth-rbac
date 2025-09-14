@@ -1,26 +1,29 @@
-export const ValidPermissions = {
-  adminFullAccess: 'acceso completo administrador',
+// The values in ValidPermissions must match the `name` field in the Permission table and stay synchronized with PermissionsDataSeed.
 
-  // Usuarios
-  usersFindAll: 'obtener todos los usuarios',
-  userFindOne: 'obtener un usuario',
-  userCreate: 'crear usuario',
-  userUpdate: 'editar usuario',
-  userChangePassword: 'cambiar contraseña usuario',
-  userToggleStatus: 'activar o suspender usuario',
+export const ValidPermissions = {
+  superAdminFullAccess: 'super.admin.fullAccess',
+
+  // Users
+  usersRead: 'users.read',
+  userReadOne: 'user.readOne',
+  userCreate: 'user.create',
+  userUpdate: 'user.update',
+  userChangePassword: 'user.changePassword',
+  userToggleStatus: 'user.toggleStatus',
+  userUploadImage: 'user.uploadImage',
 
   // Roles
-  rolesFindAll: 'obtener todos los roles',
-  roleFindOne: 'obtener un rol',
-  roleCreate: 'crear rol',
-  roleUpdate: 'editar rol',
-  roleToggleStatus: 'activar o suspender rol',
-  roleAssignPermissions: 'asignar permisos a rol',
+  rolesRead: 'roles.read',
+  roleReadOne: 'role.readOne',
+  roleCreate: 'role.create',
+  roleUpdate: 'role.update',
+  roleToggleStatus: 'role.toggleStatus',
+  roleAssignPermissions: 'role.assignPermissions',
 
-  // Permisos
-  permissionsFindAll: 'obtener todos los permisos',
-  permissionFindOne: 'obtener un permiso',
-  permissionCreate: 'crear permiso',
-  permissionUpdate: 'editar permiso',
-  permissionToggleStatus: 'activar o suspender permiso',
+  // Permissions
+  permissionsRead: 'permissions.read',
+  permissionReadOne: 'permission.readOne',
+  permissionCreate: 'permission.create',
+  permissionUpdate: 'permission.update',
+  permissionToggleStatus: 'permission.toggleStatus',
 } as const;
