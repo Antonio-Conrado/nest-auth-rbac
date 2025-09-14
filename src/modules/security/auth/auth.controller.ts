@@ -1,4 +1,14 @@
-import { Controller, Post, Body, HttpCode, Version } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  Version,
+  Param,
+  Get,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   ConfirmAccountDto,
@@ -13,9 +23,14 @@ import {
   ApiForgotPasswordDoc,
   ApiLoginDoc,
   ApiLogoutDoc,
+  ApiProfileDoc,
   ApiRegisterDoc,
   ApiResetPasswordDoc,
 } from 'src/common/handlers/api-create-doc.handlers';
+import { IdValidationPipe } from 'src/common/pipes/id-validation.pipe';
+import { User } from '../users/entities/user.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -34,6 +49,20 @@ export class AuthController {
   @ApiLoginDoc()
   login(@Body() loginAuthDto: LoginAuthDto) {
     return this.authService.login(loginAuthDto);
+  }
+
+  @Get('profile/:id')
+  @Version('1')
+  @HttpCode(200)
+  @ApiProfileDoc()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  Profile(
+    @Param('id', IdValidationPipe) id: number,
+    @Req() req: Request & { user: User },
+  ) {
+    const user = req.user;
+    return this.authService.Profile(id, user);
   }
 
   @Post('logout')

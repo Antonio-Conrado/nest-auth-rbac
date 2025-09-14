@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   HttpStatus,
   Injectable,
   NotFoundException,
@@ -23,6 +24,7 @@ import { LogoutDto } from './dto/logout.dto';
 import { ConfirmAccountDto } from './dto/confirm-account.dto';
 import { MailService } from 'src/common/services/nodemailer.service';
 import { ApiResponseDto } from 'src/common/dto';
+import { UserDto } from '../users/dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -126,6 +128,15 @@ export class AuthService {
   private getJwtToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
+  }
+
+  Profile(id: number, user: User) {
+    if (user.id !== id)
+      throw new ForbiddenException(
+        'No puedes acceder al perfil de otro usuario',
+      );
+
+    return new UserDto(user);
   }
 
   async logout(logoutDto: LogoutDto) {

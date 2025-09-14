@@ -149,6 +149,23 @@ export function ApiLoginDoc() {
   );
 }
 
+export function ApiProfileDoc() {
+  const messages = ApiResponseMessages('el usuario');
+  return applyDecorators(
+    ApiOperation({ summary: 'Obtener perfil del usuario autenticado' }),
+    ApiResponse({
+      status: 200,
+      description: 'Perfil del usuario obtenido correctamente',
+    }),
+    ApiUnauthorizedResponse({
+      description: messages.unauthorized,
+    }),
+    ApiInternalServerErrorResponse({
+      description: messages.internalServerError,
+    }),
+  );
+}
+
 // Logout
 export function ApiLogoutDoc() {
   const messages = ApiResponseMessages('el usuario');
@@ -232,9 +249,7 @@ export function ApiUploadFileDoc(message: string, fieldName: string) {
             type: 'string',
             format: 'binary',
             description: `Extensiones de ${message} esperado (ejemplo: ${
-              fieldName === 'image'
-                ? 'jpeg, png, webp, avif'
-                : 'pdf'
+              fieldName === 'image' ? 'jpeg, png, webp, avif' : 'pdf'
             })`,
           },
         },
