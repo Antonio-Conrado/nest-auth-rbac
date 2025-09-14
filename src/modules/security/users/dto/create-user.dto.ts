@@ -35,6 +35,10 @@ export class CreateUserDto {
   })
   @IsString({ message: 'La contraseña debe ser una cadena de texto' })
   @MinLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/, {
+    message:
+      'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial',
+  })
   password: string;
 
   @ApiPropertyOptional({ example: '+50512345678', description: 'Teléfono' })
