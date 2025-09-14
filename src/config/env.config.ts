@@ -26,6 +26,9 @@ export const JoiValidationSchema = Joi.object({
   DATABASE_NAME: Joi.string().required().messages({
     'any.required': 'The environment variable DATABASE_NAME is required',
   }),
+  USE_MIGRATIONS: Joi.boolean().default(true).messages({
+    'boolean.base': 'The environment variable USE_MIGRATIONS must be a boolean',
+  }),
 
   // AUTH
   JWT_SECRET: Joi.string().required().messages({
