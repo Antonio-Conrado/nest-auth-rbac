@@ -17,7 +17,6 @@ export class PaginationDto {
     description: 'Cantidad de elementos a omitir (paginación)',
   })
   @IsOptional()
-  @IsPositive({ message: 'El skip debe ser un número positivo' })
   @Min(0, { message: 'El skip no puede ser menor que 0' })
   @Type(() => Number)
   skip?: number;
