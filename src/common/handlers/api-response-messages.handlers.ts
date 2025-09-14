@@ -1,5 +1,7 @@
 export const ApiResponseMessages = (msg: string) => ({
+  found: `Se encontró correctamente ${msg.toLowerCase()}`,
   created: `Se creó correctamente ${msg.toLowerCase()}`,
+  registerUser: `Se creó correctamente ${msg.toLowerCase()}.Por favor, revise su correo electrónico para confirmar su cuenta.`,
   badRequest: 'Solicitud incorrecta, los datos proporcionados son inválidos',
   conflict: `Conflicto: ya existe ${msg.toLowerCase()} en la base de datos`,
   internalServerError:
@@ -11,6 +13,10 @@ export const ApiResponseMessages = (msg: string) => ({
   suspended: `Se suspendió correctamente ${msg.toLowerCase()}`,
   activated: `Se activó correctamente ${msg.toLowerCase()}`,
   deactivated: `${msg.toLowerCase()} está suspendido.`,
+  cannotDeactivateSuperAdmin:
+    'No se puede desactivar a un usuario con rol de superadministrador por razones de seguridad.',
+  onlySuperAdminAllowed:
+    'Esta acción solo puede ser realizada por el superadministrador por razones de seguridad.',
 });
 
 export const ApiResponseSuspendOrActivate = (msg: string, status: boolean) => {
