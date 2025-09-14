@@ -17,7 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "ts-node  scripts/generate-migration.ts",
+    "migration:run": "ts-node scripts/run-migrations.ts",
+    "migration:simple": "ts-node scripts/simple-migration.ts",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d src/config/data-source.ts",
+    "migration:show": "npx typeorm-ts-node-commonjs migration:show -d src/config/data-source.ts"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
