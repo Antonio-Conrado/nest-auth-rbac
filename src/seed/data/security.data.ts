@@ -1,11 +1,13 @@
 import { ValidPermissions } from 'src/common/data/valid-permissions';
 import { ValidRoles } from 'src/common/data/valid-roles';
+import { PermissionsDataSeed } from './permission.data';
 
 // ---------------------
 // Permissions list
 // ---------------------
-export const PermissionsData = Object.values(ValidPermissions).map((name) => ({
-  name,
+export const PermissionsData = PermissionsDataSeed.map((permission) => ({
+  name: permission.name,
+  description: permission.description,
   status: true,
 }));
 
@@ -14,29 +16,84 @@ export const PermissionsData = Object.values(ValidPermissions).map((name) => ({
 // ---------------------
 export const RolesData = [
   {
+    name: ValidRoles.superAdmin,
+    status: true,
+    permissions: [
+      PermissionsDataSeed.find(
+        (permission) =>
+          permission.name === ValidPermissions.superAdminFullAccess,
+      ),
+    ],
+  },
+  {
     name: ValidRoles.admin,
     status: true,
-    // Only the admin full access permission is needed
-    permissions: [ValidPermissions.adminFullAccess],
+    permissions: [
+      // Users
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.usersRead,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.userReadOne,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.userUpdate,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.userChangePassword,
+      ),
+
+      // Roles
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.rolesRead,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.roleReadOne,
+      ),
+
+      // Permissions
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.permissionsRead,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.permissionReadOne,
+      ),
+    ].filter(Boolean), // discard undefined if not found
   },
   {
     name: ValidRoles.user,
     status: true,
     permissions: [
       // Users
-      ValidPermissions.usersFindAll,
-      ValidPermissions.userFindOne,
-      ValidPermissions.userUpdate,
-      ValidPermissions.userChangePassword,
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.usersRead,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.userReadOne,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.userUpdate,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.userChangePassword,
+      ),
 
       // Roles
-      ValidPermissions.rolesFindAll,
-      ValidPermissions.roleFindOne,
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.rolesRead,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.roleReadOne,
+      ),
 
       // Permissions
-      ValidPermissions.permissionsFindAll,
-      ValidPermissions.permissionFindOne,
-    ],
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.permissionsRead,
+      ),
+      PermissionsDataSeed.find(
+        (permission) => permission.name === ValidPermissions.permissionReadOne,
+      ),
+    ].filter(Boolean), // discard undefined if not found
   },
 ];
 
@@ -55,9 +112,21 @@ export const UsersData = [
   {
     name: 'Juan',
     surname: 'Pérez',
+    email: 'superadmin@correo.com',
+    password: 'Abc123',
+    telephone: '+50518889999',
+    profilePhotoUrl: null,
+    isAccountConfirmed: true,
+    status: true,
+    role: ValidRoles.superAdmin,
+    security: createEmptySecurity(),
+  },
+  {
+    name: 'Ana',
+    surname: 'García',
     email: 'admin@correo.com',
-    password: '123456',
-    telephone: '+50588889999',
+    password: 'Abc123',
+    telephone: '+50517776666',
     profilePhotoUrl: null,
     isAccountConfirmed: true,
     status: true,
@@ -65,11 +134,11 @@ export const UsersData = [
     security: createEmptySecurity(),
   },
   {
-    name: 'Ana',
+    name: 'Michael',
     surname: 'García',
-    email: 'correo@correo.com',
-    password: '123456',
-    telephone: '+50577776666',
+    email: 'user@correo.com',
+    password: 'Abc123',
+    telephone: '+50512776666',
     profilePhotoUrl: null,
     isAccountConfirmed: true,
     status: true,

@@ -22,7 +22,7 @@ export async function seedRoles(
     name: role.name,
     status: role.status,
     permissions: allPermissions.filter((permission) =>
-      role.permissions.includes(permission.name),
+      role.permissions.some((p) => p.name === permission.name),
     ),
   }));
 

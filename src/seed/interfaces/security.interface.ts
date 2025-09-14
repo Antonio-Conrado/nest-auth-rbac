@@ -1,6 +1,7 @@
 export interface IPermission {
   id: number;
   name: string;
+  description: string;
   status: boolean;
 }
 
@@ -13,7 +14,7 @@ export interface IRole {
 export interface IRoleSeed {
   name: string;
   status: boolean;
-  permissions: string[];
+  permissions: IPermission[];
 }
 
 export interface IUserSecurity {
