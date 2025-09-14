@@ -28,7 +28,7 @@ export class PermissionsController {
   @Post()
   @Version('1')
   @ApiCreateDoc('el permiso')
-  @Auth(ValidPermissions.permissionCreate, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.permissionCreate)
   create(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionsService.create(createPermissionDto);
   }
@@ -36,7 +36,7 @@ export class PermissionsController {
   @Get()
   @Version('1')
   @ApiFindAllDoc('permiso')
-  @Auth(ValidPermissions.permissionsFindAll, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.permissionsRead)
   findAll() {
     return this.permissionsService.findAll();
   }
@@ -44,7 +44,7 @@ export class PermissionsController {
   @Get(':id')
   @Version('1')
   @ApiFindOneDoc('el permiso')
-  @Auth(ValidPermissions.permissionFindOne, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.permissionReadOne)
   findOne(@Param('id', IdValidationPipe) id: number) {
     return this.permissionsService.findOne(id);
   }
@@ -52,7 +52,7 @@ export class PermissionsController {
   @Patch(':id')
   @Version('1')
   @ApiUpdateDoc('el permiso')
-  @Auth(ValidPermissions.permissionUpdate, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.permissionUpdate)
   update(
     @Param('id', IdValidationPipe) id: number,
     @Body() updatePermissionDto: UpdatePermissionDto,
@@ -63,10 +63,7 @@ export class PermissionsController {
   @Patch('toggle-status/:id')
   @Version('1')
   @ApiToggleStatusDoc('el permiso')
-  @Auth(
-    ValidPermissions.permissionToggleStatus,
-    ValidPermissions.adminFullAccess,
-  )
+  @Auth(ValidPermissions.permissionToggleStatus)
   toggleStatus(@Param('id', IdValidationPipe) id: number) {
     return this.permissionsService.toggleStatus(id);
   }

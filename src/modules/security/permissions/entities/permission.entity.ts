@@ -10,7 +10,12 @@ export class Permission {
     type: 'text',
     unique: true,
   })
-  name: string;
+  name: string; // Unique value, e.g.: "user.create"
+
+  @Column({
+    type: 'text',
+  })
+  description: string; // Readable name for the UI, e.g.: "Create user"
 
   @Column({
     type: 'boolean',

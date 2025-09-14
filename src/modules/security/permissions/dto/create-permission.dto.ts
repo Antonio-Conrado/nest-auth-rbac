@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePermissionDto {
   @ApiProperty({
-    description: 'Nombre único de permiso',
-    example: 'crear usuario, editar usuario, suspender usuario',
+    description:
+      'Identificador único del permiso (usado en guards y lógica del backend)',
+    example: 'user.create',
     nullable: false,
   })
   @IsString({ message: 'El nombre del permiso debe ser una cadena de texto.' })
@@ -12,9 +13,9 @@ export class CreatePermissionDto {
   name: string;
 
   @ApiProperty({
-    description: 'Estado del permiso (activo o inactivo)',
-    nullable: true,
+    description: 'Nombre legible del permiso para la interfaz de usuario',
+    example: 'Crear usuario',
   })
-  @IsOptional()
-  status: boolean;
+  @IsString({ message: 'La descripción debe ser una cadena de texto.' })
+  description: string;
 }
