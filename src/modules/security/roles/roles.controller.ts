@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Version,
+  Req,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { CreateRoleDto } from './dto/create-role.dto';
@@ -22,6 +23,7 @@ import { AssignPermissionsDto } from './dto/assing-permissions-dto';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { ValidPermissions } from 'src/common/data/valid-permissions';
 import { ApiOperation } from '@nestjs/swagger';
+import { User } from '../users/entities/user.entity';
 
 @Controller('roles')
 export class RolesController {
@@ -30,7 +32,7 @@ export class RolesController {
   @Post()
   @Version('1')
   @ApiCreateDoc('el rol')
-  @Auth(ValidPermissions.roleCreate, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.roleCreate)
   create(@Body() createRoleDto: CreateRoleDto) {
     return this.rolesService.create(createRoleDto);
   }
@@ -38,7 +40,7 @@ export class RolesController {
   @Get()
   @Version('1')
   @ApiFindAllDoc('role')
-  @Auth(ValidPermissions.rolesFindAll, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.rolesRead)
   findAll() {
     return this.rolesService.findAll();
   }
@@ -46,7 +48,7 @@ export class RolesController {
   @Get(':id')
   @Version('1')
   @ApiFindOneDoc('el rol')
-  @Auth(ValidPermissions.roleFindOne, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.roleReadOne)
   findOne(@Param('id', IdValidationPipe) id: number) {
     return this.rolesService.findOne(id);
   }
@@ -54,7 +56,7 @@ export class RolesController {
   @Patch(':id')
   @Version('1')
   @ApiUpdateDoc('el rol')
-  @Auth(ValidPermissions.roleUpdate, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.roleUpdate)
   update(
     @Param('id', IdValidationPipe) id: number,
     @Body() updateRoleDto: UpdateRoleDto,
@@ -65,18 +67,19 @@ export class RolesController {
   @Patch('toggle-status/:id')
   @Version('1')
   @ApiToggleStatusDoc('el rol')
-  @Auth(ValidPermissions.roleToggleStatus, ValidPermissions.adminFullAccess)
-  toggleStatus(@Param('id', IdValidationPipe) id: number) {
-    return this.rolesService.toggleStatus(id);
+  @Auth(ValidPermissions.roleToggleStatus)
+  toggleStatus(
+    @Param('id', IdValidationPipe) id: number,
+    @Req() req: Request & { user: User },
+  ) {
+    const userAuthenticatedId = req.user.id;
+    return this.rolesService.toggleStatus(id, userAuthenticatedId);
   }
 
   @Patch(':id/permissions')
   @Version('1')
   @ApiOperation({ summary: 'Asignar permisos al rol' })
-  @Auth(
-    ValidPermissions.roleAssignPermissions,
-    ValidPermissions.adminFullAccess,
-  )
+  @Auth(ValidPermissions.roleAssignPermissions)
   asignPermissionsToRole(
     @Param('id', IdValidationPipe) id: number,
     @Body() assignPermissionsDto: AssignPermissionsDto,
