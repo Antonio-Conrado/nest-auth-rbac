@@ -35,16 +35,21 @@ export class UserPermissionGuard implements CanActivate {
       throw new BadRequestException(
         'Usuario no encontrado. Inicie sesión para acceder',
       );
+
+    if (!user.role)
+      throw new BadRequestException(
+        `No se pudo obtener el rol de ${user.fullName}. Contacte con un administrador.`,
+      );
     if (!user.role.permissions)
       throw new BadRequestException(
-        `El usuario ${user.name + ' ' + user.surname} no tiene permisos disponibles. Contacte con un administrador`,
+        `El usuario ${user.fullName} no tiene permisos disponibles Contacte con un administrador.`,
       );
 
-    const isAdmin = user.role.permissions.some(
-      (permission) => permission.name === ValidPermissions.adminFullAccess,
+    const isSuperAdmin = user.role.permissions.some(
+      (permission) => permission.name === ValidPermissions.superAdminFullAccess,
     );
 
-    if (isAdmin) {
+    if (isSuperAdmin) {
       return true;
     }
 
@@ -54,7 +59,7 @@ export class UserPermissionGuard implements CanActivate {
 
     if (!hasValidPermission) {
       const filteredPermissions = permissions.filter(
-        (name) => name !== ValidPermissions.adminFullAccess,
+        (name) => name !== ValidPermissions.superAdminFullAccess,
       );
 
       throw new ForbiddenException(
