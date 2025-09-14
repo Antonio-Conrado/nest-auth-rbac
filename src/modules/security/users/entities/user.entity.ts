@@ -54,12 +54,19 @@ export class User {
   })
   security: UserSecurity;
 
+  //get - set
+  get fullName(): string {
+    return `${this.name} ${this.surname}`;
+  }
+
+  //relations
   @Column()
   roleId: number;
-  @ManyToOne(() => Role, (role) => role.users, { eager: true })
+  @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'roleId' })
   role: Role;
 
+  //Entity Listeners
   @BeforeInsert()
   async hashPasswordBeforeInsert() {
     this.password = await bcrypt.hash(this.password, 10);
