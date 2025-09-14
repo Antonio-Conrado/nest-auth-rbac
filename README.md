@@ -51,6 +51,38 @@ To enable this functionality, sign in to your Cloudinary account and configure t
 - **Security**  
   All sensitive operations are protected by JWT authentication and permission-based guards, ensuring that only authorized users can access specific resources.
 
+### **[Authentication & Authorization]**
+
+- **JWT Authentication:** Protects endpoints using JWT tokens.
+- **Password hashing and validation:** Ensures secure passwords with strict validation rules.
+- **Role- and permission-based access control:** Endpoints can validate whether a user has the required permission using custom decorators.
+- **Super Admin with full access:** The Super Admin role has full privileges, bypassing permission restrictions when necessary.
+
+### **[User Management]**
+
+- **Create, update, and list users:** Complete endpoints for user management.
+- **Profile endpoint:** Allows authenticated users to view and manage their own profile.
+- **Status toggling (activate/deactivate):** Suspend or activate users without deleting them.
+- **DTO validation:** Ensures consistency and data validation for all operations.
+
+### **[Roles & Permissions]**
+
+- **CRUD for roles and permissions:** Create, update, and list roles and permissions with control.
+- **Assign multiple permissions to roles:** Roles can have one or more permissions.
+- **Status toggling for roles and permissions:** Activate or suspend a role or permission without deleting it.
+- **Super Admin protection:** The Super Admin role cannot be deactivated or modified for security reasons.
+
+### **[Error Handling]**
+
+- **Global exception filter:** Centralizes error handling, avoiding repetitive try/catch blocks in controllers.
+- **Standardized API responses:** Consistent response messages improve UX and frontend consistency.
+
+### **[API Documentation]**
+
+- **Swagger integration:** Full API documentation accessible at `/api`.
+- **Detailed decorators per endpoint:** Uses decorators like `ApiCreateDoc`, `ApiUpdateDoc`, etc., to standardize documentation.
+- **Centralized response messages:** All response messages are managed centrally for easier maintenance and improved UX.
+
 ---
 
 ## Getting Started
