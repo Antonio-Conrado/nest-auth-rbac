@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Version,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -29,6 +30,7 @@ import { ValidPermissions } from 'src/common/data/valid-permissions';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from 'src/common/pipes/file-validation.pipe';
+import { User } from './entities/user.entity';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -36,7 +38,7 @@ export class UsersController {
   @Post()
   @Version('1')
   @ApiCreateDoc('el usuario')
-  @Auth(ValidPermissions.userCreate, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.userCreate)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -44,7 +46,7 @@ export class UsersController {
   @Get()
   @Version('1')
   @ApiFindAllDoc('usuario')
-  @Auth(ValidPermissions.usersFindAll, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.usersRead)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.usersService.findAll(paginationDto);
   }
@@ -52,7 +54,7 @@ export class UsersController {
   @Get(':id')
   @Version('1')
   @ApiFindOneDoc('el usuario')
-  @Auth(ValidPermissions.userFindOne, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.userReadOne)
   findOne(@Param('id', IdValidationPipe) id: number) {
     return this.usersService.findOne(+id);
   }
@@ -60,7 +62,7 @@ export class UsersController {
   @Patch(':id')
   @Version('1')
   @ApiUpdateDoc('el usuario')
-  @Auth(ValidPermissions.userUpdate, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.userUpdate)
   update(
     @Param('id', IdValidationPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -71,7 +73,7 @@ export class UsersController {
   @Patch('change-password/:id')
   @Version('1')
   @ApiUpdatePasswordDoc('el usuario')
-  @Auth(ValidPermissions.userUpdate, ValidPermissions.adminFullAccess)
+  @Auth(ValidPermissions.userUpdate)
   changePassword(
     @Param('id', IdValidationPipe) id: number,
     @Body() changePasswordDto: ChangePasswordDto,
@@ -82,14 +84,19 @@ export class UsersController {
   @Patch('toogle-status/:id')
   @Version('1')
   @ApiToggleStatusDoc('el usuario')
-  @Auth(ValidPermissions.userToggleStatus, ValidPermissions.adminFullAccess)
-  toogleStatus(@Param('id', IdValidationPipe) id: number) {
-    return this.usersService.toggleStatus(id);
+  @Auth(ValidPermissions.userToggleStatus)
+  toogleStatus(
+    @Param('id', IdValidationPipe) id: number,
+    @Req() req: Request & { user: User },
+  ) {
+    const userAuthenticatedId = req.user.id;
+    return this.usersService.toggleStatus(id, userAuthenticatedId);
   }
 
-  @Post(':id/upload')
+  @Post(':id/upload-image')
   @Version('1')
   @ApiUploadFileDoc('la imagen', 'image')
+  @Auth(ValidPermissions.userUploadImage)
   @UseInterceptors(FileInterceptor('image'))
   uploadImage(
     @UploadedFile(new FileValidationPipe()) image: Express.Multer.File,
