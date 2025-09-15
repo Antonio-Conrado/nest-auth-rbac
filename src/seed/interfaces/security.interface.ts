@@ -24,12 +24,15 @@ export interface IUserSecurity {
   resetPasswordExpires: Date | null;
   rememberToken: string | null;
   rememberTokenExpires: Date | null;
+  refreshToken: string | null;
+  refreshTokenExpires: string | null;
 }
 
 export interface IUser {
   id: number;
   name: string;
   surname: string;
+  nameComplete: string;
   email: string;
   password: string;
   telephone: string | null;

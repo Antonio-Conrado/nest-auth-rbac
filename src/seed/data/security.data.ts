@@ -106,12 +106,15 @@ const createEmptySecurity = () => ({
   resetPasswordExpires: null,
   rememberToken: null,
   rememberTokenExpires: null,
+  refreshToken: null,
+  refreshTokenExpires: null,
 });
 
 export const UsersData = [
   {
     name: 'Juan',
     surname: 'Pérez',
+    nameComplete: 'juan perez',
     email: 'superadmin@correo.com',
     password: 'Abc123',
     telephone: '+50518889999',
@@ -124,6 +127,7 @@ export const UsersData = [
   {
     name: 'Ana',
     surname: 'García',
+    nameComplete: 'ana garcia',
     email: 'admin@correo.com',
     password: 'Abc123',
     telephone: '+50517776666',
@@ -136,6 +140,7 @@ export const UsersData = [
   {
     name: 'Michael',
     surname: 'García',
+    nameComplete: 'michael garcia',
     email: 'user@correo.com',
     password: 'Abc123',
     telephone: '+50512776666',
