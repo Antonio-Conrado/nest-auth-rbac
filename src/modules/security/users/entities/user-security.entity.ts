@@ -4,6 +4,7 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { User } from './user.entity';
 
@@ -25,9 +26,17 @@ export class UserSecurity {
   @Column({ type: 'timestamp', nullable: true })
   resetPasswordExpires: Date | null;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Index()
+  @Column({ type: 'varchar', length: 100, nullable: true, unique: true })
   rememberToken: string | null;
 
   @Column({ type: 'timestamp', nullable: true })
   rememberTokenExpires: Date | null;
+
+  @Index()
+  @Column({ type: 'varchar', length: 255, nullable: true, unique: true })
+  refreshToken: string | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  refreshTokenExpires: Date | null;
 }

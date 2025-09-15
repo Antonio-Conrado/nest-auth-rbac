@@ -191,4 +191,18 @@ export class UsersService {
       type: 'success',
     };
   }
+
+  async deleteImage(id: number): Promise<ApiResponseDto> {
+    const { data: user } = await this.findOne(id);
+    if (!user) throw new NotFoundException();
+
+    user.profilePhotoUrl = null;
+    await this.userRepository.save(user);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'La imagen se eliminó correctamente',
+      data: null,
+      type: 'success',
+    };
+  }
 }

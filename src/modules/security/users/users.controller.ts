@@ -18,6 +18,7 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { IdValidationPipe } from 'src/common/pipes/id-validation.pipe';
 import {
   ApiCreateDoc,
+  ApiDeleteFileDoc,
   ApiFindAllDoc,
   ApiFindOneDoc,
   ApiToggleStatusDoc,
@@ -93,7 +94,7 @@ export class UsersController {
     return this.usersService.toggleStatus(id, userAuthenticatedId);
   }
 
-  @Post(':id/upload-image')
+  @Post(':id/image')
   @Version('1')
   @ApiUploadFileDoc('la imagen', 'image')
   @Auth(ValidPermissions.userUploadImage)
@@ -103,5 +104,13 @@ export class UsersController {
     @Param('id', IdValidationPipe) id: number,
   ) {
     return this.usersService.uploadImage(image, id);
+  }
+
+  @Patch(':id/image')
+  @Version('1')
+  @ApiDeleteFileDoc('la imagen')
+  @Auth(ValidPermissions.userUploadImage)
+  deleteImage(@Param('id', IdValidationPipe) id: number) {
+    return this.usersService.deleteImage(id);
   }
 }

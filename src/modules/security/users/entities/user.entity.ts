@@ -9,6 +9,7 @@ import {
   BeforeInsert,
   ManyToOne,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UserSecurity } from './user-security.entity';
@@ -25,6 +26,11 @@ export class User {
   @Column({ length: 100 })
   surname: string;
 
+  @Index()
+  @Column({ type: 'text' })
+  nameComplete: string;
+
+  @Index()
   @Column({ unique: true })
   email: string;
 
@@ -77,5 +83,16 @@ export class User {
     if (this.password && !this.password.startsWith('$2b$')) {
       this.password = await bcrypt.hash(this.password, 10);
     }
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  updateFullNameSearch() {
+    const fullName = `${this.name} ${this.surname}`.toLowerCase();
+    // Remove accents
+    let normalized = fullName.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    // Remove characters that are not letters or spaces
+    normalized = normalized.replace(/[^a-z\s]/g, '');
+    this.nameComplete = normalized;
   }
 }
