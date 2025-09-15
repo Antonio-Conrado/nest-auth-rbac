@@ -235,6 +235,26 @@ export function ApiResetPasswordDoc() {
   );
 }
 
+//token
+
+export function ApiTokenDoc(title: string) {
+  const messages = ApiResponseMessages(title);
+  return applyDecorators(
+    ApiOperation({
+      summary: `Generar un nuevo access token en base a ${title} `,
+    }),
+    ApiResponse({
+      status: 200,
+      description: `Token generado correctamente`,
+    }),
+    ApiNotFoundResponse({ description: `${title} no encontrado` }),
+    ApiBadRequestResponse({ description: `${title} inválido o expirado` }),
+    ApiInternalServerErrorResponse({
+      description: messages.internalServerError,
+    }),
+  );
+}
+
 //upload files
 // Upload Image or File
 export function ApiUploadFileDoc(message: string, fieldName: string) {
@@ -262,6 +282,22 @@ export function ApiUploadFileDoc(message: string, fieldName: string) {
     }),
     ApiBadRequestResponse({
       description: 'Archivo no válido o supera el tamaño permitido',
+    }),
+    ApiInternalServerErrorResponse({
+      description: 'Error inesperado del servidor',
+    }),
+  );
+}
+
+export function ApiDeleteFileDoc(message: string) {
+  return applyDecorators(
+    ApiOperation({ summary: `Eliminar archivo` }),
+    ApiResponse({
+      status: 200,
+      description: `${message.charAt(0).toUpperCase() + message.slice(1)} se eliminó correctamente`,
+    }),
+    ApiNotFoundResponse({
+      description: `${message} no se encontró`,
     }),
     ApiInternalServerErrorResponse({
       description: 'Error inesperado del servidor',
