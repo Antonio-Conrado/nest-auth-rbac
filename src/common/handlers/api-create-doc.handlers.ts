@@ -10,6 +10,7 @@ import {
   ApiInternalServerErrorResponse,
   ApiConsumes,
   ApiBody,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { ApiResponseMessages } from './api-response-messages.handlers';
 
@@ -38,6 +39,31 @@ export function ApiFindAllDoc(msg: string) {
     ApiUnauthorizedResponse({ description: messages.unauthorized }),
     ApiInternalServerErrorResponse({
       description: messages.internalServerError,
+    }),
+  );
+}
+
+export function ApiSearchDoc(entity: string) {
+  return applyDecorators(
+    ApiOperation({ summary: `Buscar ${entity.toLowerCase()}(s)` }),
+    ApiQuery({
+      name: 'term',
+      description: `Término de búsqueda para filtrar ${entity.toLowerCase()}(s)`,
+      required: true,
+      type: String,
+    }),
+    ApiResponse({
+      status: 200,
+      description: `${entity.charAt(0).toUpperCase() + entity.slice(1)}(s) encontrado(s) correctamente`,
+    }),
+    ApiNotFoundResponse({
+      description: `No se encontraron ${entity.toLowerCase()}(s) con ese término`,
+    }),
+    ApiBadRequestResponse({
+      description: 'Parámetro de búsqueda inválido',
+    }),
+    ApiInternalServerErrorResponse({
+      description: 'Error inesperado del servidor',
     }),
   );
 }
