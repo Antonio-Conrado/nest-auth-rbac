@@ -62,10 +62,26 @@ export const JoiValidationSchema = Joi.object({
   // JWT configuration
   JWT_EXPIRES_IN: Joi.alternatives()
     .try(Joi.number(), Joi.string())
-    .default('1h')
+    .default('30m')
     .messages({
       'alternatives.types':
         'The environment variable JWT_EXPIRES_IN must be a number (seconds) or a string',
+    }),
+
+  REFRESH_TOKEN_EXPIRES_IN: Joi.alternatives()
+    .try(Joi.number(), Joi.string())
+    .default('5d')
+    .messages({
+      'alternatives.types':
+        'The environment variable REFRESH_TOKEN_EXPIRES_IN must be a number (seconds) or a string',
+    }),
+
+  REMEMBER_ME_TOKEN_EXPIRES_IN: Joi.alternatives()
+    .try(Joi.number(), Joi.string())
+    .default('15d')
+    .messages({
+      'alternatives.types':
+        'The environment variable REMEMBER_ME_TOKEN_EXPIRES_IN must be a number (seconds) or a string',
     }),
 
   // Maximum attempts to request the .env variables
