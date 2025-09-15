@@ -130,21 +130,66 @@ To enable this functionality, sign in to your Cloudinary account and configure t
       docker compose up -d
    ```
 
-7. To run the standard development server:
+7. Migrations
 
-   ```bash
-      npm run start:dev
-   ```
+If you are using migrations, set the environment variable `USE_MIGRATIONS=true`.
 
-8. Run the seed to populate test data
+If not, set it to `false` and TypeORM will automatically load entities and synchronize the database schema (recommended only for development), so you can skip this step if you prefer automatic synchronization.
 
-   Use your preferred API client (e.g., Postman, Insomnia, Thunder Client, etc.) to send a GET request to the following endpoint:
+- The file `config/data-source.ts` is used for running migrations.
+- The file `config/typeorm.config.ts` is used to load entities at runtime in your NestJS application.
 
-   👉 [`GET http://localhost:3000/api/seed/security`](http://localhost:3000/api/seed/security)
+This project uses TypeORM migrations to manage database schema changes. You can generate, run, and revert migrations using the following commands:
 
-   Once completed, you will receive a success message. You can then verify the inserted data using your preferred database management tool.
+Generate a new migration:
 
-9. Access the API documentation once the server is running:
+```
+npm run migration:generate <MigrationName>
+```
+
+This will create a new migration file in:
+
+src/database/migrations/
+
+Run all pending migrations:
+
+```
+npm run migration:run
+```
+
+Revert the last executed migration:
+
+```
+npm run migration:revert
+```
+
+Show the migration status:
+
+```
+npm run migration:show
+```
+
+⚠️ Important:
+
+When using migrations, the synchronize option in TypeOrmModule must be set to false to prevent automatic schema changes in the database.
+
+synchronize: true should only be used in development if you are not using migrations, as it updates the schema automatically.
+
+8. To run the standard development server:
+
+```bash
+   npm run start:dev
+```
+
+9. Run the seed to populate test data
+
+Use your preferred API client (e.g., Postman, Insomnia, Thunder Client, etc.) to send a GET request to the following endpoint:
+
+👉 [`GET http://localhost:3000/api/seed/security`](http://localhost:3000/api/seed/security)
+
+Once completed, you will receive a success message. You can then verify the inserted data using your preferred database management tool.
+
+10. Access the API documentation once the server is running:
 
 👉 **Swagger UI:** [`${BACKEND_URL}/api`](http://localhost:3000/api)
 
