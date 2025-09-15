@@ -30,6 +30,12 @@ export class LoginAuthDto {
     default: false,
   })
   @IsOptional()
-  @IsBoolean({ message: 'El campo remember debe ser un booleano' })
-  remember?: boolean;
+  @IsBoolean({ message: 'El campo recuerdame debe ser un booleano' })
+  remember_me?: boolean;
+}
+
+export class LoginResponseDto {
+  accessToken?: string;
+  refreshToken?: string;
+  rememberToken?: string | null;
 }
