@@ -9,7 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginationDto } from '../../../common/dto/pagination.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
 import {
@@ -21,7 +21,7 @@ import { ChangePasswordDto } from './dto/change-password-user.dto';
 import * as bcrypt from 'bcrypt';
 import { CloudinaryService } from 'src/common/services/cloudinary.service';
 import { convertFileToBase64String } from 'src/common/handlers/encoded-file.handler';
-import { ApiResponseDto, PaginatedDto } from 'src/common/dto';
+import { ApiResponseDto, PaginatedDto, SearchDto } from 'src/common/dto';
 import { UserListItemDto } from './dto/users-list-item.dto';
 import { PaginationData } from 'src/common/utils/pagination-data.utils';
 import { UserDto } from './dto/user.dto';
@@ -78,6 +78,30 @@ export class UsersService {
       statusCode: HttpStatus.OK,
       message: ApiResponseMessages('los usuarios').found,
       data: { items, meta },
+      type: 'success',
+    };
+  }
+
+  async search(query: SearchDto): Promise<ApiResponseDto<UserDto[]>> {
+    const { term } = query;
+    const users = await this.userRepository.find({
+      where: [
+        { nameComplete: ILike(`%${term}%`) },
+        { email: ILike(`%${term}%`) },
+      ],
+      relations: { role: { permissions: true } },
+    });
+
+    if (users.length <= 0)
+      throw new NotFoundException(
+        'No se encontraron usuario(s) con ese término',
+      );
+
+    const dataList = users.map((user) => new UserDto(user));
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Usuario(s) encontrado(s) correctamente',
+      data: dataList,
       type: 'success',
     };
   }

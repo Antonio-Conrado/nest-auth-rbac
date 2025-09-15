@@ -21,6 +21,7 @@ import {
   ApiDeleteFileDoc,
   ApiFindAllDoc,
   ApiFindOneDoc,
+  ApiSearchDoc,
   ApiToggleStatusDoc,
   ApiUpdateDoc,
   ApiUpdatePasswordDoc,
@@ -32,6 +33,7 @@ import { Auth } from '../auth/decorators/auth.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from 'src/common/pipes/file-validation.pipe';
 import { User } from './entities/user.entity';
+import { SearchDto } from 'src/common/dto';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -50,6 +52,14 @@ export class UsersController {
   @Auth(ValidPermissions.usersRead)
   findAll(@Query() paginationDto: PaginationDto) {
     return this.usersService.findAll(paginationDto);
+  }
+
+  @Get('search')
+  @Version('1')
+  @ApiSearchDoc('usuario')
+  @Auth(ValidPermissions.usersRead)
+  search(@Query() query: SearchDto) {
+    return this.usersService.search(query);
   }
 
   @Get(':id')
