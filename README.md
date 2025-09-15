@@ -57,6 +57,7 @@ To enable this functionality, sign in to your Cloudinary account and configure t
 - **Password hashing and validation:** Ensures secure passwords with strict validation rules.
 - **Role- and permission-based access control:** Endpoints can validate whether a user has the required permission using custom decorators.
 - **Super Admin with full access:** The Super Admin role has full privileges, bypassing permission restrictions when necessary.
+- **Refresh and Remember Tokens:** Support generating new access tokens using refresh tokens or remember-me tokens for persistent sessions.
 
 ### **[User Management]**
 
@@ -64,6 +65,8 @@ To enable this functionality, sign in to your Cloudinary account and configure t
 - **Profile endpoint:** Allows authenticated users to view and manage their own profile.
 - **Status toggling (activate/deactivate):** Suspend or activate users without deleting them.
 - **DTO validation:** Ensures consistency and data validation for all operations.
+- **DTO validation:** Ensures consistency and data validation for all operations.
+- **User search with validation:** Adds a search endpoint that ensures proper input validation and consistent response formatting.
 
 ### **[Roles & Permissions]**
 
