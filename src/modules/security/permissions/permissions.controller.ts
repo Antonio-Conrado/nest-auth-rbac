@@ -60,7 +60,7 @@ export class PermissionsController {
     return this.permissionsService.update(id, updatePermissionDto);
   }
 
-  @Patch('toggle-status/:id')
+  @Patch(':id/toggle-status')
   @Version('1')
   @ApiToggleStatusDoc('el permiso')
   @Auth(ValidPermissions.permissionToggleStatus)

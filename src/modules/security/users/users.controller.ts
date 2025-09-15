@@ -70,7 +70,7 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @Patch('change-password/:id')
+  @Patch(':id/change-password')
   @Version('1')
   @ApiUpdatePasswordDoc('el usuario')
   @Auth(ValidPermissions.userUpdate)
@@ -81,7 +81,7 @@ export class UsersController {
     return this.usersService.changePassword(+id, changePasswordDto);
   }
 
-  @Patch('toogle-status/:id')
+  @Patch(':id/toggle-status')
   @Version('1')
   @ApiToggleStatusDoc('el usuario')
   @Auth(ValidPermissions.userToggleStatus)

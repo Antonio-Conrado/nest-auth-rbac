@@ -64,7 +64,7 @@ export class RolesController {
     return this.rolesService.update(id, updateRoleDto);
   }
 
-  @Patch('toggle-status/:id')
+  @Patch(':id/toggle-status')
   @Version('1')
   @ApiToggleStatusDoc('el rol')
   @Auth(ValidPermissions.roleToggleStatus)
